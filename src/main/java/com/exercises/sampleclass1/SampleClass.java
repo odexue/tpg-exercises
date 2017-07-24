@@ -1,11 +1,9 @@
 package com.exercises.sampleclass1;
 
-import com.exercises.timemeasuretool.Timed;
-
 public class SampleClass {
 	
-	@Timed("myMethod1")
-	public void timedMethod() {
+	public void timedMethodNoAnnotation() throws InterruptedException {
+		Thread.sleep(1000);
 		System.out.println("this is a timed method1");
 	}
 	

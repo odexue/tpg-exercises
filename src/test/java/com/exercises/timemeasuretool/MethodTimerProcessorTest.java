@@ -12,9 +12,16 @@ public class MethodTimerProcessorTest {
 	private final String methodName3 = "myMethod3";
 	
 	@Test
-	public void timedMethodInNanoTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException {
-		long myMethod3Time = MethodTimerProcessor.timedMethodInMillis(methodName3);
-		assertTrue(myMethod3Time == 1000l);
+	public void annotatedTimedMethodInMillisTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException {
+		long myMethod3Time = MethodTimerProcessor.annotatedTimedMethodInMillis(methodName3);
+		assertTrue(myMethod3Time == 1000l || myMethod3Time < 2000l);
+		
+	}
+	
+	@Test
+	public void timedMethodInMillisTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException, ClassNotFoundException {
+		long myMethod3Time = MethodTimerProcessor.timedMethodInMillis("com.exercises.sampleclass1.SampleClass", "timedMethodNoAnnotation");
+		assertTrue(myMethod3Time == 1000l || myMethod3Time < 2000l);
 	}
 
 }

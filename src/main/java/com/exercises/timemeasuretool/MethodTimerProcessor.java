@@ -30,7 +30,7 @@ public class MethodTimerProcessor {
 	 * @throws InvocationTargetException
 	 * @throws InstantiationException
 	 */
-	public static long timedMethodInMillis(String methodName, Object... methodParams) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException {
+	public static long annotatedTimedMethodInMillis(String methodName, Object... methodParams) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException {
 		long star_time = 0l;
 		long end_time = 0l;
 		final Reflections reflections = new Reflections(new MethodAnnotationsScanner());
@@ -47,4 +47,57 @@ public class MethodTimerProcessor {
 		
 	}
 	
+	/**
+	 * 
+	 * Calculates the time consumed by a method in milliseconds. 
+	 * 
+	 * @param packageClassName must be the complete package and class name
+	 * @param methodName is case-sensitive
+	 * @param methodParams arguments of the method to be invoked
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 * @throws InstantiationException
+	 */
+	public static long timedMethodInMillis(String packageClassName, String methodName, Object... methodParams) throws ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException  {
+		long star_time = 0l;
+		long end_time = 0l;
+		Class<?> cl = Class.forName(packageClassName);
+		Method[] methods = cl.getMethods();
+		
+		for(Method method : methods) {
+			if(method.getName().equals(methodName)) {
+				star_time = System.currentTimeMillis();
+				method.invoke(method.getDeclaringClass().newInstance(), methodParams);
+				end_time = System.currentTimeMillis();
+			}
+		}
+		return end_time-star_time;
+		
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
